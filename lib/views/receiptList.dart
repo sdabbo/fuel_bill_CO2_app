@@ -18,7 +18,6 @@ class ReceiptList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Consumer<ReceiptsModel>(builder: (context, receipts, child) {
-      print("UPDATE");
       return receipts.length == 0
           ? Center(
               child: Text('No receipts yet. Start scanning!'),

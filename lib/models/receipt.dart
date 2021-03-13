@@ -63,13 +63,11 @@ class ReceiptModel {
 
   double _getCO2Value() {
     double co2KG = 0;
-    switch (_type) {
+    switch (_type.toLowerCase()) {
       case "diesel":
-      case "Diesel":
         co2KG =  10.1746899767; //2.68787 * 3.78541
         break;
       case "petrol":
-      case "Petrol":
         co2KG = 8.2068445882; //2.16802 * 3.78541
         break;
     }
