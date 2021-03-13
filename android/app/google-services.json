@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "472994470103",
+    "project_id": "c02app",
+    "storage_bucket": "c02app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472994470103:android:0db1defc41a3bf00e07892",
+        "android_client_info": {
+          "package_name": "com.sdabbo.c02"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472994470103-0q4omrvk5avu271cc7hao8gb5je8ecnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyCQKTpJSNomiPxVo-dvNPfqKJGD8s3u8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472994470103-0q4omrvk5avu271cc7hao8gb5je8ecnp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

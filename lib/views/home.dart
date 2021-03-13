@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/camera/takePicture.dart';
-import 'package:my_app/navigation.dart';
+import 'package:my_app/models/receipts.dart';
+import 'package:my_app/views/camera/takePicture.dart';
+import 'package:my_app/views/navigation.dart';
+import 'package:my_app/views/receiptList.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -16,18 +18,13 @@ class HomeScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-
   @override
   Widget build(BuildContext context) {
+    //ReceiptsModel receipts = context.findAncestorStateOfType<OverviewState>().receiptsModel;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('you are on this page'),
-          ],
-        ),
-      ),
+        child: ReceiptList(),),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera_alt),
         // Provide an onPressed callback.

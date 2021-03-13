@@ -3,7 +3,9 @@
 import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/camera/displayPicture.dart';
+import 'package:my_app/models/receipts.dart';
+import 'package:my_app/views/navigation.dart';
+import 'package:provider/provider.dart';
 
 
 class TakePictureScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     // To display the current output from the Camera,
     // create a CameraController.
     _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
+      // Get a specific views.camera from the list of available cameras.
       widget.cameras.first,
       // Define the resolution to use.
       ResolutionPreset.medium,
@@ -48,9 +50,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Take a picture of a receipt')),
+      appBar: AppBar(title: Text('Take a picture of a receipt'),backgroundColor: Colors.blueGrey,),
       // Wait until the controller is initialized before displaying the
-      // camera preview. Use a FutureBuilder to display a loading spinner
+      // views.camera preview. Use a FutureBuilder to display a loading spinner
       // until the controller has finished initializing.
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
@@ -71,24 +73,18 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           // Take the Picture in a try / catch block. If anything goes wrong,
           // catch the error.
           try {
-            // Ensure that the camera is initialized.
+            // Ensure that the views.camera is initialized.
             await _initializeControllerFuture;
 
             // Attempt to take a picture and get the file `image`
             // where it was saved.
             final image = await _controller.takePicture();
 
-            // If the picture was taken, display it on a new screen.
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(
-                  // Pass the automatically generated path to
-                  // the DisplayPictureScreen widget.
-                  imagePath: image?.path,
-                ),
-              ),
-            );
+            //add image to list
+            Provider.of<ReceiptsModel>(context, listen: false).add(image);
+
+            //go back to the previous screen
+            Navigator.pop(context);
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);

@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/camera/displayPicture.dart';
-import 'package:my_app/camera/takePicture.dart';
-import 'package:my_app/home.dart';
+import 'package:my_app/models/receipts.dart';
+import 'package:my_app/views/camera/takePicture.dart';
+import 'package:my_app/views/home.dart';
+import 'package:my_app/views/insights.dart';
 
 class Overview extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -23,7 +24,9 @@ class Overview extends StatefulWidget {
 class OverviewState extends State<Overview> {
   int _selectedIndex = 0;
 
-  List<XFile> images;
+  //List<XFile> images = [];
+
+  //ReceiptsModel receiptsModel = ReceiptsModel();
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -49,8 +52,7 @@ class OverviewState extends State<Overview> {
       body: Center(
           child: _selectedIndex == 0
               ? HomeScreen(cameras: widget.cameras)
-              :
-          Placeholder()),
+              : Insights()),
 
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -60,8 +62,8 @@ class OverviewState extends State<Overview> {
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.insights),
+            label: 'Insights',
             backgroundColor: Colors.pink,
           ),
         ],
@@ -73,41 +75,3 @@ class OverviewState extends State<Overview> {
     );
   }
 }
-/*
-TakePictureScreen(
-                  cameras: widget.cameras,
-                )),
- */
-/*
-floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
-        // Provide an onPressed callback.
-        onPressed: () async {
-          // Take the Picture in a try / catch block. If anything goes wrong,
-          // catch the error.
-          try {
-            // Ensure that the camera is initialized.
-            await _initializeControllerFuture;
-
-            // Attempt to take a picture and get the file `image`
-            // where it was saved.
-            final image = await _controller.takePicture();
-
-            // If the picture was taken, display it on a new screen.
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(
-                  // Pass the automatically generated path to
-                  // the DisplayPictureScreen widget.
-                  imagePath: image?.path,
-                ),
-              ),
-            );
-          } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
-          }
-        },
-      ),
- */
