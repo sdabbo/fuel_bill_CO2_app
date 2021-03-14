@@ -27,11 +27,13 @@ class Receipt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: new Image.file(
-        File(receipt.path),
-        fit: BoxFit.cover,
-        height: 300.0,
-      ),
+      leading: receipt.testingData
+          ? new Image.asset('assets/receipt.png')
+          : new Image.file(
+              File(receipt.path),
+              fit: BoxFit.cover,
+              height: 300.0,
+            ),
       title: new Text(
         '${receipt.emissions.toString()} Kg CO2',
         style: new TextStyle(

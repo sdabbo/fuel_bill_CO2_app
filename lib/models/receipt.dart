@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class ReceiptModel {
-  /// Internal, private state of the cart.
   final XFile _file;
+  bool _testingData = false;
 
   void Function() _callbackNotifyFunction;
   bool _calculating = true;
@@ -20,19 +20,12 @@ class ReceiptModel {
 
   var test = Random().nextInt(45);
 
-/*
-  ReceiptModel(this._file)
-      : _gallons = Random().nextDouble() * 45,
-        _amount = Random().nextDouble() * 75,
-        _type = 'diesel',
-        _dateTime = DateTime.now();
-
- */
 
   ReceiptModel(this._file, void Function() notify) {
     _callbackNotifyFunction = notify;
     _dateTime = DateTime.now();
     _getData();
+    print(_file.path);
   }
 
   ReceiptModel.n(DateTime dateTime, this._file, void Function() notify) {
@@ -43,10 +36,12 @@ class ReceiptModel {
     _amount = gallons*(Random().nextDouble() * 4);
     _type = Random().nextBool() ? 'diesel' : 'petrol';
     _dateTime = dateTime;
-
+    _testingData = true;
   }
 
   String get path => _file?.path;
+
+  bool get testingData => _testingData;
 
   bool get calculating => _calculating;
 
