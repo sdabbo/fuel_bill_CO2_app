@@ -15,11 +15,13 @@ Future<void> main() async {
   // can be called before `runApp()`
   WidgetsFlutterBinding.ensureInitialized();
 
-  final cameras = null;
-  if (!kIsWeb) {
+  List<CameraDescription> cameras;
+  if (kIsWeb) {
+    cameras = null;
+  } else {
     // NOT running on the web!
     // Obtain a list of the available cameras on the device.
-    final cameras = await availableCameras();
+    cameras = await availableCameras();
   }
 
   runApp(App(cameras));

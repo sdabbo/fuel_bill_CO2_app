@@ -50,6 +50,8 @@ class ReceiptModel {
 
   bool get calculating => _calculating;
 
+  bool get failed => _failed;
+
   double get price => double.parse((_amount).toStringAsFixed(2));
 
   double get gallons => double.parse((_gallons).toStringAsFixed(2));
@@ -91,11 +93,16 @@ class ReceiptModel {
 
 
   void _parseData(List<TextBlock> blocks) {
-    _extractGallons(blocks);
-    _extractAmount(blocks);
-    _extractType(blocks);
-    _calculating = false;
-    _callbackNotifyFunction();
+    try {
+      _extractGallons(blocks);
+      _extractAmount(blocks);
+      _extractType(blocks);
+      _calculating = false;
+      _callbackNotifyFunction();
+    } catch(e){
+      _failed = true;
+      _callbackNotifyFunction();
+    }
   }
 
   void _extractGallons(List<TextBlock> blocks) {

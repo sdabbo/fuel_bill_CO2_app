@@ -23,28 +23,26 @@ class ReceiptsModel extends ChangeNotifier {
 
   /// An unmodifiable view of the items in the cart.
   List<ReceiptModel> get items =>
-      _receipts.where((e) => !e.calculating).toList();
+      _receipts.where((e) => !e.calculating && !e.failed).toList();
 
   List<ReceiptModel> get itemsReversed => _reversedReceipts();
 
   /// The current total price of all receipts
-  double get totalPrice => double.parse((_receipts
+  double get totalPrice => double.parse((items
       .map((receipt) => receipt.price)
       .fold(0, (prev, amount) => prev + amount)).toStringAsFixed(2));
 
-  //TODO:: impelement
   double get totalPriceCurrentYearEstimate => double.parse(_getPriceCurrentYearEstimate().toStringAsFixed(2));
 
   /// The current total gallons of all receipts
-  double get totalGallons => double.parse(_receipts
+  double get totalGallons => double.parse(items
       .map((receipt) => receipt.gallons)
       .fold(0, (prev, amount) => prev + amount).toStringAsFixed(2));
 
-  //TODO:: impelement
   double get totalGallonsCurrentYearEstimate => double.parse(_getGallonsCurrentYearEstimate().toStringAsFixed(2));
 
   /// The current total CO2 KG of all receipts
-  double get totalCO2KG => double.parse(_receipts
+  double get totalCO2KG => double.parse(items
       .map((receipt) => receipt.emissions)
       .fold(0, (prev, amount) => prev + amount).toStringAsFixed(2));
 
@@ -52,7 +50,7 @@ class ReceiptsModel extends ChangeNotifier {
 
   /// Is any one calculating
   bool get anyCalculating =>
-      _receipts.where((element) => element.calculating).length > 0;
+      items.where((element) => element.calculating).length > 0;
 
   ///https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
   double get getC02Score => double.parse((totalCO2KGCurrentYearEstimate / 4600).toStringAsFixed(2));
@@ -77,12 +75,12 @@ class ReceiptsModel extends ChangeNotifier {
   }
 
   double _getPriceCurrentYearEstimate() {
-    _receipts.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     DateTime oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-    DateTime oldestDate = _receipts.first.dateTime;
+    DateTime oldestDate = items.last.dateTime;
     DateTime today = DateTime.now();
 
-    List<ReceiptModel> allReceiptsCurrentYear = _receipts
+    List<ReceiptModel> allReceiptsCurrentYear = items
         .where((e) => e.dateTime.compareTo(oneYearAgo) > 0)
         .where((e) => !e.calculating)
         .toList();
@@ -90,8 +88,9 @@ class ReceiptsModel extends ChangeNotifier {
     double totalAmount = allReceiptsCurrentYear
         .map((receipt) => receipt.price)
         .fold(0, (prev, amount) => prev + amount);
-    print(totalAmount);
+
     int timespan = today.difference(oldestDate).inDays;
+
     double predictedCO2 = totalAmount / (timespan / 365);
 
     //return the estimate
@@ -99,12 +98,12 @@ class ReceiptsModel extends ChangeNotifier {
   }
 
   double _getGallonsCurrentYearEstimate() {
-    _receipts.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     DateTime oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-    DateTime oldestDate = _receipts.first.dateTime;
+    DateTime oldestDate = items.last.dateTime;
     DateTime today = DateTime.now();
 
-    List<ReceiptModel> allReceiptsCurrentYear = _receipts
+    List<ReceiptModel> allReceiptsCurrentYear = items
         .where((e) => e.dateTime.compareTo(oneYearAgo) > 0)
         .where((e) => !e.calculating)
         .toList();
@@ -112,7 +111,7 @@ class ReceiptsModel extends ChangeNotifier {
     double totalAmount = allReceiptsCurrentYear
         .map((receipt) => receipt.gallons)
         .fold(0, (prev, amount) => prev + amount);
-    print(totalAmount);
+
     int timespan = today.difference(oldestDate).inDays;
     double predictedCO2 = totalAmount / (timespan / 365);
 
@@ -121,12 +120,12 @@ class ReceiptsModel extends ChangeNotifier {
   }
 
   double _getC02CurrentYearEstimate() {
-    _receipts.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     DateTime oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-    DateTime oldestDate = _receipts.first.dateTime;
+    DateTime oldestDate = items.last.dateTime;
     DateTime today = DateTime.now();
 
-    List<ReceiptModel> allReceiptsCurrentYear = _receipts
+    List<ReceiptModel> allReceiptsCurrentYear = items
         .where((e) => e.dateTime.compareTo(oneYearAgo) > 0)
         .where((e) => !e.calculating)
         .toList();
@@ -134,7 +133,7 @@ class ReceiptsModel extends ChangeNotifier {
     double totalAmount = allReceiptsCurrentYear
         .map((receipt) => receipt.emissions)
         .fold(0, (prev, amount) => prev + amount);
-    print(totalAmount);
+
     int timespan = today.difference(oldestDate).inDays;
     double predictedCO2 = totalAmount / (timespan / 365);
 
