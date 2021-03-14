@@ -50,7 +50,7 @@ class ReceiptModel {
 
   bool get calculating => _calculating;
 
-  double get amount => double.parse((_amount).toStringAsFixed(2));
+  double get price => double.parse((_amount).toStringAsFixed(2));
 
   double get gallons => double.parse((_gallons).toStringAsFixed(2));
 

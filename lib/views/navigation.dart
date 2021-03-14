@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/models/receipts.dart';
 import 'package:my_app/views/camera/takePicture.dart';
 import 'package:my_app/views/home.dart';
-import 'package:my_app/views/insights.dart';
+import 'package:my_app/views/insigths/insights.dart';
 
 class Overview extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -46,14 +46,14 @@ class OverviewState extends State<Overview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('C02 App'),
+        title: _selectedIndex == 0 ? Text("My Receipts") : Text("My Statistics"),
         backgroundColor: Colors.blueGrey,
       ),
       body: Center(
-          child: _selectedIndex == 0
-              ? HomeScreen(cameras: widget.cameras)
-              : Insights()),
-
+        child: _selectedIndex == 0
+            ? HomeScreen(cameras: widget.cameras)
+            : Insights(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
