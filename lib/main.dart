@@ -8,14 +8,19 @@ import 'package:my_app/views/camera/takePicture.dart';
 import 'package:my_app/views/navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
   // can be called before `runApp()`
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Obtain a list of the available cameras on the device.
-  final cameras = await availableCameras();
+  final cameras = null;
+  if (!kIsWeb) {
+    // NOT running on the web!
+    // Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+  }
 
   runApp(App(cameras));
 }

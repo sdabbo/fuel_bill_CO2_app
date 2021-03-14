@@ -28,22 +28,31 @@ class ReceiptsModel extends ChangeNotifier {
   List<ReceiptModel> get itemsReversed => _reversedReceipts();
 
   /// The current total price of all receipts
-  double get totalPrice => _receipts
-      .map((receipt) => receipt.amount)
-      .fold(0, (prev, amount) => prev + amount);
+  double get totalPrice =>
+      _receipts
+          .map((receipt) => receipt.amount)
+          .fold(0, (prev, amount) => prev + amount);
 
   /// The current total gallons of all receipts
-  double get totalGallons => _receipts
-      .map((receipt) => receipt.gallons)
-      .fold(0, (prev, amount) => prev + amount);
+  double get totalGallons =>
+      _receipts
+          .map((receipt) => receipt.gallons)
+          .fold(0, (prev, amount) => prev + amount);
 
   /// The current total CO2 KG of all receipts
-  double get totalCO2KG => _receipts
-      .map((receipt) => receipt.emissions)
-      .fold(0, (prev, amount) => prev + amount);
+  double get totalCO2KG =>
+      _receipts
+          .map((receipt) => receipt.emissions)
+          .fold(0, (prev, amount) => prev + amount);
 
   /// Is any one calculating
-  bool get anyCalculating =>_receipts.where((element) => element.calculating).length > 0;
+  bool get anyCalculating =>
+      _receipts
+          .where((element) => element.calculating)
+          .length > 0;
+
+  ///https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
+  double get getC02Score => totalCO2KG/4600;
 
 
   List<ReceiptModel> _reversedReceipts() {

@@ -9,7 +9,6 @@ import 'package:my_app/views/navigation.dart';
 import 'package:my_app/views/receiptList.dart';
 
 class HomeScreen extends StatelessWidget {
-
   final List<CameraDescription> cameras;
 
   const HomeScreen({
@@ -24,21 +23,24 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: ReceiptList(),),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
-        // Provide an onPressed callback.
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TakePictureScreen(
-                cameras: cameras,
-              ),
-            ),
-          );
-        },
+        child: ReceiptList(),
       ),
+      floatingActionButton: cameras == null
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.camera_alt),
+              // Provide an onPressed callback.
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TakePictureScreen(
+                      cameras: cameras,
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

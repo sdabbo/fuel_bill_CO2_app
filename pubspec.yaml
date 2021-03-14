@@ -27,11 +27,11 @@ dependencies:
   camera: ^0.8.0
   video_player: ^2.0.0
   intl: ^0.17.0
-  syncfusion_flutter_gauges: ^18.4.47
   starflut: ^1.0.0
   firebase_core: ^1.0.1
   firebase_ml_vision: ^0.11.0
   provider: ^5.0.0
+  syncfusion_flutter_gauges: ^18.4.47
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
