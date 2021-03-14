@@ -26,22 +26,20 @@ class Insights extends StatelessWidget {
                             color: Color.fromRGBO(64, 75, 96, .9),
                           ),
                           child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            title: Text(
-                              "My estimated CO2e emissions for this year in comparison to an average US citizen.",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                              ),
+                            title: Gauge(
+                              receipts: receipts,
                             ),
                             subtitle: Padding(
                               padding: const EdgeInsets.only(
                                 left: 15.0,
-                                top: 10.0,
+                                bottom: 10.0,
                               ),
-                              child: Gauge(
-                                receipts: receipts,
+                              child: Text(
+                                "My estimated CO2e emissions for this year in comparison to an average US citizen.",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ),
                           ),

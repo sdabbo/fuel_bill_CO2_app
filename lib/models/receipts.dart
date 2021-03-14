@@ -8,11 +8,11 @@ class ReceiptsModel extends ChangeNotifier {
 
   ReceiptsModel() {
     XFile file = XFile('assets/receipt.png');
-    _addReceiptModel(ReceiptModel.n(DateTime.now(), file, notify));
     _addReceiptModel(ReceiptModel.n(
-        DateTime.now().subtract(Duration(days: 1)), file, notify));
+        DateTime.now().subtract(Duration(days: 25)), file, notify));
     _addReceiptModel(ReceiptModel.n(
-        DateTime.now().subtract(Duration(days: 3)), file, notify));
+        DateTime.now().subtract(Duration(days: 20)), file, notify));
+    _addReceiptModel(ReceiptModel.n(DateTime.now().subtract(Duration(days: 7)), file, notify));
   }
 
   int get length => items.length;
@@ -56,31 +56,33 @@ class ReceiptsModel extends ChangeNotifier {
   double get getC02Score => double.parse((totalCO2KGCurrentYearEstimate / 4600).toStringAsFixed(2));
 
   List<ReceiptModel> _reversedReceipts() {
-    Iterable inReverse = items.reversed;
-    return inReverse.toList();
+    //items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    //Iterable inReverse = items.reversed;
+    //return inReverse.toList();
+    return items;
   }
 
   /// Adds [receipt] to cart. This and [removeAll] are the only ways to modify the
   /// cart from the outside.
   void add(XFile file) {
-    _receipts.add(ReceiptModel(file, notify));
+    _receipts.insert(0,ReceiptModel(file, notify));
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
   void _addReceiptModel(ReceiptModel receiptModel) {
-    _receipts.add(receiptModel);
+    _receipts.insert(0,receiptModel);
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
 
   double _getPriceCurrentYearEstimate() {
-    items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    //Reversed.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     DateTime oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-    DateTime oldestDate = items.last.dateTime;
+    DateTime oldestDate = itemsReversed.last.dateTime;
     DateTime today = DateTime.now();
 
-    List<ReceiptModel> allReceiptsCurrentYear = items
+    List<ReceiptModel> allReceiptsCurrentYear = itemsReversed
         .where((e) => e.dateTime.compareTo(oneYearAgo) > 0)
         .where((e) => !e.calculating)
         .toList();
@@ -98,12 +100,12 @@ class ReceiptsModel extends ChangeNotifier {
   }
 
   double _getGallonsCurrentYearEstimate() {
-    items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    //Reversed.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     DateTime oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-    DateTime oldestDate = items.last.dateTime;
+    DateTime oldestDate = itemsReversed.last.dateTime;
     DateTime today = DateTime.now();
 
-    List<ReceiptModel> allReceiptsCurrentYear = items
+    List<ReceiptModel> allReceiptsCurrentYear = itemsReversed
         .where((e) => e.dateTime.compareTo(oneYearAgo) > 0)
         .where((e) => !e.calculating)
         .toList();
@@ -113,6 +115,7 @@ class ReceiptsModel extends ChangeNotifier {
         .fold(0, (prev, amount) => prev + amount);
 
     int timespan = today.difference(oldestDate).inDays;
+    print(timespan);
     double predictedCO2 = totalAmount / (timespan / 365);
 
     //return the estimate
@@ -120,12 +123,12 @@ class ReceiptsModel extends ChangeNotifier {
   }
 
   double _getC02CurrentYearEstimate() {
-    items.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    //itemsReversed.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     DateTime oneYearAgo = DateTime.now().subtract(Duration(days: 365));
-    DateTime oldestDate = items.last.dateTime;
+    DateTime oldestDate = itemsReversed.last.dateTime;
     DateTime today = DateTime.now();
 
-    List<ReceiptModel> allReceiptsCurrentYear = items
+    List<ReceiptModel> allReceiptsCurrentYear = itemsReversed
         .where((e) => e.dateTime.compareTo(oneYearAgo) > 0)
         .where((e) => !e.calculating)
         .toList();
