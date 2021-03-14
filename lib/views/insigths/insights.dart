@@ -78,7 +78,7 @@ class Insights extends StatelessWidget {
           contentPadding:
               EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           title: Text(
-            "Lifetime",
+            title,
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

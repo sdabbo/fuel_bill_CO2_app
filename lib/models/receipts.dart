@@ -8,6 +8,13 @@ class ReceiptsModel extends ChangeNotifier {
 
   ReceiptsModel() {
     XFile file = XFile('assets/receipt.png');
+
+    _addReceiptModel(ReceiptModel.n(DateTime.now().subtract(Duration(days: 70)), file, notify));
+    _addReceiptModel(ReceiptModel.n(DateTime.now().subtract(Duration(days: 61)), file, notify));
+    _addReceiptModel(ReceiptModel.n(DateTime.now().subtract(Duration(days: 50)), file, notify));
+    _addReceiptModel(ReceiptModel.n(DateTime.now().subtract(Duration(days: 39)), file, notify));
+
+
     _addReceiptModel(ReceiptModel.n(
         DateTime.now().subtract(Duration(days: 25)), file, notify));
     _addReceiptModel(ReceiptModel.n(

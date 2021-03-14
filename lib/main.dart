@@ -53,6 +53,7 @@ class App extends StatelessWidget {
           return ChangeNotifierProvider(
             create: (context) => ReceiptsModel(),
             child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               theme: new ThemeData(
                 primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
                 primarySwatch: Colors.orange,

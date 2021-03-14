@@ -68,6 +68,7 @@ class ReceiptModel {
       case "petrol":
       case "petro":
       case "petro1":
+      case "petrol1":
         co2KG = 8.2068445882; //2.16802 * 3.78541
         break;
     }
