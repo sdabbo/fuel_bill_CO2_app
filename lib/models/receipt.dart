@@ -31,7 +31,7 @@ class ReceiptModel {
   ReceiptModel.n(DateTime dateTime, this._file, void Function() notify) {
     _callbackNotifyFunction = notify;
     _calculating = false;
-    double gallons = Random().nextDouble() * 45;
+    double gallons = Random().nextDouble() * 25;
     _gallons = gallons;
     _amount = gallons*(Random().nextDouble() * 4);
     _type = Random().nextBool() ? 'diesel' : 'petrol';
@@ -65,6 +65,8 @@ class ReceiptModel {
         co2KG =  10.1746899767; //2.68787 * 3.78541
         break;
       case "petrol":
+      case "petro":
+      case "petro1":
         co2KG = 8.2068445882; //2.16802 * 3.78541
         break;
     }
@@ -97,41 +99,49 @@ class ReceiptModel {
     } catch(e){
       _failed = true;
       _callbackNotifyFunction();
+
+      for (TextBlock block in blocks) {
+        print("__________DEBUG_______");
+        print(block.text);
+      }
     }
   }
 
   void _extractGallons(List<TextBlock> blocks) {
-    print("__________");
-    print(blocks.length);
-    _gallons = double.parse(_extractValue(blocks, "GALLONS"));
+    print("____EXTRACT_GALLONS______");
+    _gallons = double.parse(_extractValue(blocks, "GALLONS|GADLONS|LLONS|GALLON"));
     print("_gallons: ${_gallons}");
   }
 
   void _extractAmount(List<TextBlock> blocks) {
-    print("__________");
-    _amount = double.parse(_extractValue(blocks, "FUEL SALE"));
+    print("____EXTRACT_AMOUNT______");
+    _amount = double.parse(_extractValue(blocks, "FUEL SALE|FOBL SALE|FUELS|FUESAUE|FUBL SADE|FOELS SALE|FUEL SAuE|FUBL SALE"));
     print("_amount: ${_amount}");
   }
 
   void _extractType(List<TextBlock> blocks) {
-    print("__________");
+    print("____EXTRACT_TYPE______");
     _type = _extractValue(blocks, "PRODUCT");
     print("_type: ${_type}");
   }
 
-  String _extractValue(List<TextBlock> blocks, String str) {
+  String _extractValue(List<TextBlock> blocks, String regex) {
     bool found = false;
     for (TextBlock block in blocks) {
 
       if (found == true) {
-        return block.text.replaceAll('. ', '.').split(' ').last.replaceAll('\$', '').replaceAll(':', '').replaceAll(RegExp(r'[a-zA-Z]'), '');
+        print("FOUND");
+        print(block.text);
+        return block.text.replaceAll('. ', '.').split(' ').last.replaceAll('\$', '').replaceAll(':', '').replaceAll(RegExp(r'[a-zA-Z]'), '').replaceAll('..', '.');
       }
 
-      if (block.text.startsWith(str)) {
+      if (block.text.startsWith(RegExp(regex))) {
+        print(block.text);
         //Products type is sometimes found in same block as 'PRODUCT:'
         if (block.text.startsWith("PRODUCT")) {
           String lastPart = block.text.split(' ').last;
-          if (!lastPart.contains(str)) {
+          if (!lastPart.contains(RegExp(regex))) {
+            print("IN SAME BLOCK");
             return lastPart.replaceAll('\$', '').replaceAll(':', '');
           }
         }
