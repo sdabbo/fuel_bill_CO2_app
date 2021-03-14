@@ -17,95 +17,47 @@ class Insights extends StatelessWidget {
                 child: Container(
                   child: ListView(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'My C02e emissions',
-                          style: new TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
+                      Card(
+                        elevation: 8.0,
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(64, 75, 96, .9),
                           ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'My estimated CO2e emissions for this year in comparison to an average US citizen.',
-                          style: new TextStyle(
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 10.0),
+                            title: Text(
+                              "My estimated CO2e emissions for this year in comparison to an average US citizen.",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 15.0,
+                                top: 10.0,
+                              ),
+                              child: Gauge(
+                                receipts: receipts,
+                              ),
+                            ),
                           ),
-                          textAlign: TextAlign.start,
                         ),
                       ),
-                      Gauge(
-                        receipts: receipts,
+                      _getStatistic(
+                        "This years estimates",
+                        receipts.totalCO2KGCurrentYearEstimate,
+                        receipts.totalGallonsCurrentYearEstimate,
+                        receipts.totalPriceCurrentYearEstimate,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'This years estimates',
-                          style: new TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Table(
-                          defaultVerticalAlignment:
-                              TableCellVerticalAlignment.middle,
-                          border: TableBorder.all(
-                              color: Colors.blueGrey,
-                              style: BorderStyle.solid,
-                              width: 1),
-                          children: [
-                            _getTableRow("CO2e emissions",
-                                receipts.totalCO2KGCurrentYearEstimate.toString() + " kg"),
-                            _getTableRow("Fuel",
-                                receipts.totalGallonsCurrentYearEstimate.toString() + " gallons"),
-                            _getTableRow("Price",
-                                "\$ " + receipts.totalPriceCurrentYearEstimate.toString()),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Lifetime',
-                          style: new TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Table(
-
-                          defaultVerticalAlignment:
-                              TableCellVerticalAlignment.middle,
-                          border: TableBorder.all(
-                              color: Colors.blueGrey,
-                              style: BorderStyle.solid,
-                              width: 1),
-                          children: [
-                            _getTableRow("CO2e emissions",
-                                receipts.totalCO2KG.toString() + " kg"),
-                            _getTableRow("Fuel",
-                                receipts.totalGallons.toString() + " gallons"),
-                            _getTableRow("Price",
-                                "\$ " + receipts.totalPrice.toString()),
-                          ],
-                        ),
+                      _getStatistic(
+                        "Lifetime",
+                        receipts.totalCO2KG,
+                        receipts.totalGallons,
+                        receipts.totalPrice,
                       ),
                     ],
                   ),
@@ -115,32 +67,64 @@ class Insights extends StatelessWidget {
     );
   }
 
-  _getTableRow(String title, String value) {
-    return TableRow(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            title,
-            style: new TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey,
+  Widget _getStatistic(
+      String title, double emissions, double fuel, double total) {
+    return Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(64, 75, 96, .9),
+        ),
+        child: ListTile(
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          title: Text(
+            "Lifetime",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(
+              left: 15.0,
+              top: 10.0,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.filter_drama, color: Colors.red.shade400),
+                    Text(
+                      " ${emissions.toString()} kg CO2e",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.local_gas_station, color: Colors.white),
+                    Text(
+                      " ${fuel.toString()} gallons",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.payments, color: Colors.white),
+                    Text(
+                      " \$ ${total.toString()}",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            value,
-            style: new TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

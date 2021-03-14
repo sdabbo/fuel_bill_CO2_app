@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //ReceiptsModel receipts = context.findAncestorStateOfType<OverviewState>().receiptsModel;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       body: Center(
         child: ReceiptList(),
       ),

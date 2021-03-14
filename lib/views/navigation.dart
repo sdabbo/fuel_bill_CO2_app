@@ -45,32 +45,36 @@ class OverviewState extends State<Overview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       appBar: AppBar(
+        elevation: 0.1,
+        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         title: _selectedIndex == 0 ? Text("My Receipts") : Text("My Statistics"),
-        backgroundColor: Colors.blueGrey,
       ),
       body: Center(
         child: _selectedIndex == 0
             ? HomeScreen(cameras: widget.cameras)
             : Insights(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.green,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insights),
-            label: 'Insights',
-            backgroundColor: Colors.pink,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        backgroundColor: Colors.blueGrey,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Container(
+        height: 55.0,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.insights),
+              label: 'Insights',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.orange,
+          unselectedItemColor: Colors.white,
+          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

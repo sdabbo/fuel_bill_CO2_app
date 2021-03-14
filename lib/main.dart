@@ -27,19 +27,6 @@ Future<void> main() async {
   runApp(App(cameras));
 }
 
-/*
-  runApp(
-    MaterialApp(
-      theme: new ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: Overview(
-        cameras: cameras,
-      ),
-    ),
-  );
- */
-
 class App extends StatelessWidget {
   List<CameraDescription> cameras;
 
@@ -67,7 +54,9 @@ class App extends StatelessWidget {
             create: (context) => ReceiptsModel(),
             child: MaterialApp(
               theme: new ThemeData(
-                primarySwatch: Colors.cyan,
+                primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
+                primarySwatch: Colors.orange,
+                fontFamily: 'Times',
               ),
               home: Overview(
                 cameras: cameras,

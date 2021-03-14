@@ -10,7 +10,8 @@ import 'package:my_app/models/receipt.dart';
 import 'package:my_app/views/camera/takePicture.dart';
 import 'package:my_app/views/home.dart';
 import 'package:my_app/views/navigation.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';import 'package:timeago/timeago.dart' as timeago;
+
 
 class Receipt extends StatelessWidget {
   final oCcy = new NumberFormat("#,##0.00", "en_US");
@@ -26,66 +27,76 @@ class Receipt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: receipt.testingData
-          ? new Image.asset('assets/receipt.png')
-          : new Image.file(
+    return Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(64, 75, 96, .9),
+        ),
+        child: ListTile(
+          contentPadding:
+          EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: new BoxDecoration(
+              border: new Border(
+                right: new BorderSide(width: 1.0, color: Colors.white24),
+              ),
+            ),
+            child: receipt.testingData
+                ? new Image.asset('assets/receipt.png')
+                : new Image.file(
               File(receipt.path),
               fit: BoxFit.cover,
               height: 300.0,
             ),
-      title: new Text(
-        '${receipt.emissions.toString()} Kg CO2',
-        style: new TextStyle(
-          fontSize: 22.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.redAccent,
+          ),
+          title: Text(
+            "Refuel ${timeago.format(receipt.dateTime)}",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+
+          subtitle: Column(
+            children: [
+              Row(
+                children: <Widget>[
+                  Icon(Icons.filter_drama, color: Colors.red.shade400),
+                  Text(
+                    " ${receipt.emissions.toString()} kg CO2e",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Icon(Icons.local_gas_station, color: Colors.white),
+                  Text(
+                    " ${receipt.gallons.toString()} gallons",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Icon(Icons.payments, color: Colors.white),
+                  Text(
+                    " \$ ${receipt.pricePerLiter.toString()} / gallon",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+            ],
+          ),
+          trailing: Text(receipt.fuelTypeShort,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              fontSize: 50.0,
+            ),
+          ),
         ),
       ),
-      subtitle: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text('${receipt.gallons.toString()} gallons',
-                style: new TextStyle(
-                    fontSize: 13.0, fontWeight: FontWeight.normal)),
-            new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                new Text(
-                    'Price / Liter: \$${oCcy.format(receipt.pricePerLiter)}',
-                    style: new TextStyle(
-                        fontSize: 11.0, fontWeight: FontWeight.normal)),
-                new Text(
-                    'On: ${DateFormat('yyyy-MM-dd').format(receipt.dateTime)}',
-                    style: new TextStyle(
-                        fontSize: 11.0, fontWeight: FontWeight.normal)),
-              ],
-            )
-          ]),
     );
   }
 }
-
-/*
-Column(
-mainAxisAlignment: MainAxisAlignment.end,
-children: [
-Padding(
-padding: const EdgeInsets.only(bottom: 8.0),
-child: Text(
-"Receipt #" + number.toString(),
-style: TextStyle(color: Colors.black54),
-),
-),
-Image.file(
-File(receipt.path),
-fit: BoxFit.cover,
-),
-Divider(
-color: Colors.blueGrey,
-),
-],
-);
- */

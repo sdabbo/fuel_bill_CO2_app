@@ -20,7 +20,6 @@ class ReceiptModel {
 
   var test = Random().nextInt(45);
 
-
   ReceiptModel(this._file, void Function() notify) {
     _callbackNotifyFunction = notify;
     _dateTime = DateTime.now();
@@ -33,7 +32,7 @@ class ReceiptModel {
     _calculating = false;
     double gallons = Random().nextDouble() * 25;
     _gallons = gallons;
-    _amount = gallons*(Random().nextDouble() * 4);
+    _amount = gallons * (Random().nextDouble() * 4);
     _type = Random().nextBool() ? 'diesel' : 'petrol';
     _dateTime = dateTime;
     _testingData = true;
@@ -51,6 +50,8 @@ class ReceiptModel {
 
   double get gallons => double.parse((_gallons).toStringAsFixed(2));
 
+  String get fuelTypeShort => _type.toLowerCase() == "diesel" ? "D" : "P";
+
   DateTime get dateTime => _dateTime;
 
   double get emissions => double.parse((_getCO2Value()).toStringAsFixed(2));
@@ -62,7 +63,7 @@ class ReceiptModel {
     double co2KG = 0;
     switch (_type.toLowerCase()) {
       case "diesel":
-        co2KG =  10.1746899767; //2.68787 * 3.78541
+        co2KG = 10.1746899767; //2.68787 * 3.78541
         break;
       case "petrol":
       case "petro":
@@ -87,8 +88,6 @@ class ReceiptModel {
     textRecognizer.close();
   }
 
-
-
   void _parseData(List<TextBlock> blocks) {
     try {
       _extractGallons(blocks);
@@ -96,7 +95,7 @@ class ReceiptModel {
       _extractType(blocks);
       _calculating = false;
       _callbackNotifyFunction();
-    } catch(e){
+    } catch (e) {
       _failed = true;
       _callbackNotifyFunction();
 
@@ -109,13 +108,15 @@ class ReceiptModel {
 
   void _extractGallons(List<TextBlock> blocks) {
     print("____EXTRACT_GALLONS______");
-    _gallons = double.parse(_extractValue(blocks, "GALLONS|GADLONS|LLONS|GALLON"));
+    _gallons =
+        double.parse(_extractValue(blocks, "GALLONS|GADLONS|LLONS|GALLON"));
     print("_gallons: ${_gallons}");
   }
 
   void _extractAmount(List<TextBlock> blocks) {
     print("____EXTRACT_AMOUNT______");
-    _amount = double.parse(_extractValue(blocks, "FUEL SALE|FOBL SALE|FUELS|FUESAUE|FUBL SADE|FOELS SALE|FUEL SAuE|FUBL SALE"));
+    _amount = double.parse(_extractValue(blocks,
+        "FUEL SALE|FOBL SALE|FUELS|FUESAUE|FUBL SADE|FOELS SALE|FUEL SAuE|FUBL SALE"));
     print("_amount: ${_amount}");
   }
 
@@ -128,11 +129,17 @@ class ReceiptModel {
   String _extractValue(List<TextBlock> blocks, String regex) {
     bool found = false;
     for (TextBlock block in blocks) {
-
       if (found == true) {
         print("FOUND");
         print(block.text);
-        return block.text.replaceAll('. ', '.').split(' ').last.replaceAll('\$', '').replaceAll(':', '').replaceAll(RegExp(r'[a-zA-Z]'), '').replaceAll('..', '.');
+        return block.text
+            .replaceAll('. ', '.')
+            .split(' ')
+            .last
+            .replaceAll('\$', '')
+            .replaceAll(':', '')
+            .replaceAll(RegExp(r'[a-zA-Z]'), '')
+            .replaceAll('..', '.');
       }
 
       if (block.text.startsWith(RegExp(regex))) {

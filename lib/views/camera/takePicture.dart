@@ -1,12 +1,9 @@
-
-
 import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/models/receipts.dart';
 import 'package:my_app/views/navigation.dart';
 import 'package:provider/provider.dart';
-
 
 class TakePictureScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -50,7 +47,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Take a picture of a receipt'),backgroundColor: Colors.blueGrey,),
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      appBar: AppBar(
+        title: Text('Take a picture of your receipt'),
+        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      ),
       // Wait until the controller is initialized before displaying the
       // views.camera preview. Use a FutureBuilder to display a loading spinner
       // until the controller has finished initializing.

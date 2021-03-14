@@ -16,13 +16,13 @@ import 'package:provider/provider.dart';
 class ReceiptList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Consumer<ReceiptsModel>(builder: (context, receipts, child) {
       return receipts.length == 0
           ? Center(
               child: Text('No receipts yet. Start scanning!'),
             )
           : ListView(
+              //shrinkWrap: true,
               children: receipts.itemsReversed.asMap().entries.map((receipt) {
                 return Receipt(
                   receipt: receipt.value,

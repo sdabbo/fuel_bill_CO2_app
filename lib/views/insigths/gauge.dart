@@ -29,6 +29,7 @@ class Gauge extends StatelessWidget {
                 needleEndWidth: 5,
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 0.7,
+                needleColor: Colors.white,
                 value: receipts.getC02Score,
                 knobStyle: KnobStyle(knobRadius: 0.05)),
           ],
@@ -47,7 +48,7 @@ class Gauge extends StatelessWidget {
               startWidth: 0.45,
               sizeUnit: GaugeSizeUnit.factor,
               endWidth: 0.45,
-              color: const Color(0xFFFFBA00),
+              color: Colors.orange,
             ),
             GaugeRange(
               startValue: 1.32,
@@ -75,6 +76,7 @@ class Gauge extends StatelessWidget {
                 text: 'Good',
                 value: 20.5,
                 textStyle: GaugeTextStyle(
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: isCardView ? 14 : 18,
                     fontFamily: 'Times'),
@@ -85,6 +87,7 @@ class Gauge extends StatelessWidget {
                 text: 'Average',
                 value: 60.5,
                 textStyle: GaugeTextStyle(
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: isCardView ? 14 : 18,
                     fontFamily: 'Times'),
@@ -95,9 +98,10 @@ class Gauge extends StatelessWidget {
                 text: 'Poor',
                 value: 100.5,
                 textStyle: GaugeTextStyle(
+                  color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: isCardView ? 14 : 18,
-                    fontFamily: 'Times'),
+                    fontFamily: 'Times',),
                 offsetUnit: GaugeSizeUnit.factor,
                 markerOffset: -0.12)
           ],
